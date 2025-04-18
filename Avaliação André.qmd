@@ -1,0 +1,85 @@
+---
+title: "André L. R. Igarzabal"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: load-packages # nomes únicos
+#| include: false # não inclui o resultado no doc
+
+library(tidyverse) # pacote ggplot2 (gráficos)
+library(WDI) # pacote dos dados
+
+# BASES DE DADOS
+# COLOCAR OS TRÊS OBJETOS DE DADOS
+
+# DADOS EM PAINEL
+dadosvida <- WDI(country = 'all',
+                 indicator = 'SP.DYN.LE00.IN')
+
+# CORTE TRANSVERSAL
+dadosvida2023 <- WDI(country = 'all',
+                     indicator = 'SP.DYN.LE00.IN',
+                     start = 2023, end = 2023)
+
+# SÉRIE TEMPORAL
+dadosvidabr <- WDI(country = 'BR',
+                   indicator = 'SP.DYN.LE00.IN')
+
+```
+
+## VARIÁVEL
+
+A **Expectativa de Vida ao Nascer** é uma variável demográfica que indica a média de anos de vida que um recém-nascido espera viver, pressupondo que as taxas de mortalidade atuais se mantenham estáveis ao longo de sua vida. Este indicador é uma consequência da qualidade de vida, do acesso à saúde, das configurações da sociedade, ambientais e de segurança de um grupo social. Em contextos gerais, a expectativa de vida pode ser empregada para analisar o crescimento de um país ou região acerca do desenvolvimento humano.
+
+## GRÁFICO COM DADOS EM PAINEL
+
+Um **gráfico com dados em painel** é utilizado para mostrar informações que representam duas ou mais dimensões ao longo de um período. Esse modelo de gráfico possibilita visualizar o trajeto de diversos países, regiões ou estados em relação a uma determinada variável ao longo do tempo.
+
+O gráfico com dados em painel também torna mais disponível a comparação entre várias localidades, possibilitando a identificação de normas, como a manutenção de uma tendência de crescimento ou a paralisação em certas áreas.
+
+```{r}
+#| label: dadosempainel
+#| warning: false
+#| echo: false
+
+ggplot(dadosvida,
+                mapping = aes(y = SP.DYN.LE00.IN,
+                                   x = year)) +
+  geom_point()
+```
+
+## GRÁFICO COM CORTE TRANSVERSAL
+
+Um **gráfico com dados de corte transversal** é utilizado para exibir informações de diferentes elementos (como países, estados ou regiões) em um único ponto no tempo
+
+Esses gráficos possibilitam visualizar como diferentes unidades se comparam entre si quanto a uma variável em um determinado período, facilitando analisar de desigualdades ou padrões de comportamento. Por exemplo, ao identificar a evolução da expectativa de vida em 2023, podemos detectar quais nações têm economias mais poderosas ou mais fracas naquele ano específico.
+
+```{r}
+#| label: dadoscortetransversal
+#| warning: false 
+#| echo: false  
+
+ggplot(dadosvida2023,
+                    mapping = aes(y = SP.DYN.LE00.IN,
+                                  x = year)) +
+  geom_point()
+```
+
+## GRÁFICO COM SÉRIE TEMPORAL
+
+O **gráfico com dados de série temporal** serve para observar o progresso de somente uma variável durante os anos. Esse tipo de gráfico permite visualizar como uma variável muda no decorrer diferentes períodos, o que ajuda a identificar tendências, ciclos e variações sazonais. Por exemplo, ao trabalhar com a variável "Expectativa de Vida ao Nascer", o gráfico de série temporal representa os dados específicos de um único país (Brasil, no caso) ao longo dos anos.
+
+Com a série temporal, pode-se visualizar a mudança da Expectativa de Vida ao Nascer de forma progressiva, observando-se, por exemplo, anos de intensifiação ou de estagnação, e associando essas reações com outros eventos históricos, como avanços no sistema de saúde ou crises da economia.
+
+```{r}
+#| label: dadosserietemporal
+#| warning: false 
+#| echo: false
+
+ggplot(dadosvidabr,
+                    mapping = aes(y = SP.DYN.LE00.IN,
+                                  x = year)) +
+  geom_point()
+```
